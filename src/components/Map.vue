@@ -15,11 +15,25 @@ import BasemapGallery from '@arcgis/core/widgets/BasemapGallery'
 import Editor from '@arcgis/core/widgets/Editor'
 import Search from '@arcgis/core/widgets/Search'
 
+// import IdentityManager from '@arcgis/core/identity/IdentityManager'
+
 export default {
   name: 'Map',
   async mounted () {
     let highlight
 
+    // NHD LAYER
+    // const nhdLayer = new FeatureLayer({
+    //   url: "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2",
+    //   opacity: 0.50
+    // })
+
+    // CURRENT TERRIBLE FISHABLE WATERS STREAM DATASET
+    const currentFishableWatersLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/ndow_fishable_waters_gdb/FeatureServer/1"
+    })
+
+    // FISHABLE WATERS LAYER
     const fishableWatersTemplate = {
       title: '{water_name}',
       content: [
@@ -50,6 +64,7 @@ export default {
         }
       ]
     }
+
     const fishableWatersLayer = new FeatureLayer({
       url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_nhd/FeatureServer/0',
       id: 'Fishable Waters',
@@ -144,6 +159,10 @@ export default {
           var item = event.item
           if (item.title === 'Esmeralda fishable nhd'){
             item.title = 'Fishable Waters'
+          } else if (item.title === 'NHDPlus HR - NetworkNHDFlowline') {
+            item.title = 'National Hydrology Dataset - High Resolution'
+          } else if (item.title === 'Ndow fishable waters gdb - Fishable Rivers & Streams') {
+            item.title = 'Current Fishable Waters'
           }
         }
       })
@@ -165,7 +184,14 @@ export default {
       view.ui.add(basemapGalleryExpand, 'bottom-left')
 
       // Add Layers to map after view has loaded
+      // map.add(nhdLayer)
+      map.add(currentFishableWatersLayer)
       map.add(fishableWatersLayer)
+
+      // Filter fishable waters by ndow_responsibility
+      // fishableWatersLayer.when(() => {
+      //   fishableWatersLayer.definitionExpression = "ndow_responsibility = '"+ IdentityManager.credentials[0].userId +"'"
+      // })
     })
 
     // Function to unselect features
@@ -175,8 +201,8 @@ export default {
       }
     }
 
+    // When view is clicked
     view.on('click', () => {
-      // Unselect any currently selected features
       unselectFeature();
     })
   }
