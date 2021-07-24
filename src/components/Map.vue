@@ -23,10 +23,10 @@ export default {
     let highlight
 
     // NHD LAYER
-    // const nhdLayer = new FeatureLayer({
-    //   url: "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2",
-    //   opacity: 0.50
-    // })
+    const nhdLayer = new FeatureLayer({
+      url: "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2",
+      opacity: 0.50
+    })
 
     // CURRENT TERRIBLE FISHABLE WATERS STREAM DATASET
     const currentFishableWatersLayer = new FeatureLayer({
@@ -64,7 +64,6 @@ export default {
         }
       ]
     }
-
     const fishableWatersLayer = new FeatureLayer({
       url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_nhd/FeatureServer/0',
       id: 'Fishable Waters',
@@ -72,21 +71,41 @@ export default {
       popupTemplate: fishableWatersTemplate
     })
 
+    // FISHABLE WATERS START LAYER
+    const startTemplate = {
+      title: "{water_name} - {type}",
+    }
+    const startLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_start/FeatureServer/0",
+      popupEnabled: true,
+      popupTemplate: startTemplate
+    })
+
+    // FISHABLE WATERS END LAYER
+    const endTemplate = {
+      title: "{water_name} - {type}",
+    }
+    const endLayer = new FeatureLayer({
+      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_end/FeatureServer/0",
+      popupEnabled: true,
+      popupTemplate: endTemplate
+    })
+
+    // MAP
     const map = new Map ({
       basemap: 'topo-vector'
     })
     
+    // MAP VIEW
     const view = new MapView ({
       container: this.$el,
       map: map,
       zoom: 6,
       center: [-117, 38.5]
     })
-
     view.constraints = {
       maxZoom: 17
     }
-
     view.popup = {
       dockEnabled: true,
       dockOptions: {
@@ -96,6 +115,7 @@ export default {
       }
     }
 
+    // When view is loaded
     view.when(async () => {
       // Search
       const searchWidget = new Search({
@@ -134,15 +154,15 @@ export default {
           layer: fishableWatersLayer,
           fieldConfig: [fishableWaterFields]
         }],
-        // snappingOptions: {
-        //   enabled: true,
-        //   selfEnabled: true,
-        //   featureEnabled: true,
-        //   featureSources: [{
-        //     layer: nhdLayer
-        //   }],
-        //   distance: 20,
-        // },
+        snappingOptions: {
+          enabled: true,
+          selfEnabled: true,
+          featureEnabled: true,
+          featureSources: [{
+            layer: nhdLayer
+          }],
+          distance: 20,
+        },
         container: document.createElement('div')
       })
       var editorExpand = new Expand({
@@ -184,9 +204,11 @@ export default {
       view.ui.add(basemapGalleryExpand, 'bottom-left')
 
       // Add Layers to map after view has loaded
-      // map.add(nhdLayer)
+      map.add(nhdLayer)
       map.add(currentFishableWatersLayer)
       map.add(fishableWatersLayer)
+      map.add(startLayer)
+      map.add(endLayer)
 
       // Filter fishable waters by ndow_responsibility
       // fishableWatersLayer.when(() => {
@@ -194,8 +216,8 @@ export default {
       // })
     })
 
-    // Function to unselect features
-    function unselectFeature() {
+    // Unselect features
+    function unselectFeature () {
       if (highlight) {
         highlight.remove();
       }
@@ -203,7 +225,7 @@ export default {
 
     // When view is clicked
     view.on('click', () => {
-      unselectFeature();
+      unselectFeature()
     })
   }
 }
