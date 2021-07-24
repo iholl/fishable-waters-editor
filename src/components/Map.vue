@@ -183,6 +183,10 @@ export default {
             item.title = 'National Hydrology Dataset - High Resolution'
           } else if (item.title === 'Ndow fishable waters gdb - Fishable Rivers & Streams') {
             item.title = 'Current Fishable Waters'
+          } else if (item.title === 'Esmeralda fishable start') {
+            item.title = 'Fishable Waters Start'
+          } else if (item.title === 'Esmeralda fishable end') {
+            item.title = 'Fishable Waters End'
           }
         }
       })
