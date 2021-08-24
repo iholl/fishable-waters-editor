@@ -22,16 +22,16 @@ export default {
   async mounted () {
     let highlight
 
-    // NHD LAYER
-    const nhdLayer = new FeatureLayer({
-      url: "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2",
-      opacity: 0.50
-    })
+    // // NHD LAYER
+    // const nhdLayer = new FeatureLayer({
+    //   url: "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2",
+    //   opacity: 0.50
+    // })
 
     // CURRENT TERRIBLE FISHABLE WATERS STREAM DATASET
-    const currentFishableWatersLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/ndow_fishable_waters_gdb/FeatureServer/1"
-    })
+    // const currentFishableWatersLayer = new FeatureLayer({
+    //   url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/ndow_fishable_waters_gdb/FeatureServer/1"
+    // })
 
     // FISHABLE WATERS LAYER
     const fishableWatersTemplate = {
@@ -59,36 +59,52 @@ export default {
             {
               fieldName: 'species_2',
               label: 'Species 2'
-            }
+            },
+            {
+              fieldName: 'species_3',
+              label: 'Species 3'
+            },
+            {
+              fieldName: 'species_4',
+              label: 'Species 4'
+            },
+            {
+              fieldName: 'species_5',
+              label: 'Species 5'
+            },
+            {
+              fieldName: 'species_6',
+              label: 'Species 6'
+            },
+            {
+              fieldName: 'species_7',
+              label: 'Species 7'
+            },
+            {
+              fieldName: 'species_8',
+              label: 'Species 8'
+            },
+            {
+              fieldName: 'species_9',
+              label: 'Species 9'
+            },
+            {
+              fieldName: 'species_10',
+              label: 'Species 10'
+            },
+            {
+              fieldName: 'species_11',
+              label: 'Species 11'
+            },
           ],
         }
       ]
     }
     const fishableWatersLayer = new FeatureLayer({
-      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_nhd/FeatureServer/0',
+      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/Fishable Waters/FeatureServer/0',
       id: 'Fishable Waters',
       popupEnabled: true,
-      popupTemplate: fishableWatersTemplate
-    })
-
-    // FISHABLE WATERS START LAYER
-    const startTemplate = {
-      title: "{water_name} - {type}",
-    }
-    const startLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_start/FeatureServer/0",
-      popupEnabled: true,
-      popupTemplate: startTemplate
-    })
-
-    // FISHABLE WATERS END LAYER
-    const endTemplate = {
-      title: "{water_name} - {type}",
-    }
-    const endLayer = new FeatureLayer({
-      url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/esmeralda_fishable_end/FeatureServer/0",
-      popupEnabled: true,
-      popupTemplate: endTemplate
+      popupTemplate: fishableWatersTemplate,
     })
 
     // MAP
@@ -144,25 +160,62 @@ export default {
         {
           name: 'species_2',
           label: 'Species 2'
-        }]
+        },
+        {
+          name: 'species_3',
+          label: 'Species 3'
+        },
+        {
+          name: 'species_4',
+          label: 'Species 4'
+        },
+        {
+          name: 'species_5',
+          label: 'Species 5'
+        },
+        {
+          name: 'species_6',
+          label: 'Species 6'
+        },
+        {
+          name: 'species_7',
+          label: 'Species 7'
+        },
+        {
+          name: 'species_8',
+          label: 'Species 8'
+        },
+        {
+          name: 'species_9',
+          label: 'Species 9'
+        },
+        {
+          name: 'species_10',
+          label: 'Species 10'
+        },
+        {
+          name: 'species_11',
+          label: 'Species 11'
+        },]
       }
 
       // Editor
       const editor = new Editor({
         view: view,
+        allowedWorkflows: ["update"],
         layerInfos: [{
           layer: fishableWatersLayer,
           fieldConfig: [fishableWaterFields]
         }],
-        snappingOptions: {
-          enabled: true,
-          selfEnabled: true,
-          featureEnabled: true,
-          featureSources: [{
-            layer: nhdLayer
-          }],
-          distance: 20,
-        },
+        // snappingOptions: {
+        //   enabled: true,
+        //   selfEnabled: true,
+        //   featureEnabled: true,
+        //   featureSources: [{
+        //     layer: nhdLayer
+        //   }],
+        //   distance: 20,
+        // },
         container: document.createElement('div')
       })
       var editorExpand = new Expand({
@@ -208,11 +261,8 @@ export default {
       view.ui.add(basemapGalleryExpand, 'bottom-left')
 
       // Add Layers to map after view has loaded
-      map.add(nhdLayer)
-      map.add(currentFishableWatersLayer)
+      // map.add(nhdLayer)
       map.add(fishableWatersLayer)
-      map.add(startLayer)
-      map.add(endLayer)
 
       // Filter fishable waters by ndow_responsibility
       // fishableWatersLayer.when(() => {
