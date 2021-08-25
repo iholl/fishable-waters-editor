@@ -101,15 +101,16 @@ export default {
       ]
     }
     const fishableWatersLayer = new FeatureLayer({
-      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/Fishable Waters/FeatureServer/0',
-      id: 'Fishable Waters',
+      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/fishable_creeks_streams_rivers/FeatureServer/0',
+      id: 'Fishable Creeks and Streams',
       popupEnabled: true,
       popupTemplate: fishableWatersTemplate,
+      displayField: "water_name"
     })
 
     // MAP
     const map = new Map ({
-      basemap: 'topo-vector'
+      basemap: 'streets-night-vector'
     })
     
     // MAP VIEW
@@ -154,6 +155,10 @@ export default {
       const fishableWaterFields = {
         layer: fishableWatersLayer,
         fieldConfig: [{
+          name: 'geo_update',
+          label: 'Update Geometry (yes/no)'
+        },
+        {
           name: 'species_1',
           label: 'Species 1'
         },
@@ -230,16 +235,8 @@ export default {
         container: document.createElement('div'),
         listItemCreatedFunction: function (event) {
           var item = event.item
-          if (item.title === 'Esmeralda fishable nhd'){
-            item.title = 'Fishable Waters'
-          } else if (item.title === 'NHDPlus HR - NetworkNHDFlowline') {
-            item.title = 'National Hydrology Dataset - High Resolution'
-          } else if (item.title === 'Ndow fishable waters gdb - Fishable Rivers & Streams') {
-            item.title = 'Current Fishable Waters'
-          } else if (item.title === 'Esmeralda fishable start') {
-            item.title = 'Fishable Waters Start'
-          } else if (item.title === 'Esmeralda fishable end') {
-            item.title = 'Fishable Waters End'
+          if (item.title === 'Fishable creeks streams rivers'){
+            item.title = 'Fishable Rivers, Streams and Creeks'
           }
         }
       })
