@@ -28,11 +28,6 @@ export default {
     //   opacity: 0.50
     // })
 
-    // CURRENT TERRIBLE FISHABLE WATERS STREAM DATASET
-    // const currentFishableWatersLayer = new FeatureLayer({
-    //   url: "https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/ndow_fishable_waters_gdb/FeatureServer/1"
-    // })
-
     // FISHABLE WATERS LAYER
     const fishableWatersTemplate = {
       title: '{water_name}',
@@ -151,57 +146,118 @@ export default {
       })
       view.ui.add(searchWidget, 'top-right')
 
+      const yesNo = {
+        type: "coded-value",
+        name: 'geo_update',
+        codedValues: [
+          { name: "Yes", code: "yes" },
+          { name: "No", code: "no" }
+        ]
+      }
+
+      const speicesValues = {
+        type: "coded-value",
+        codedValues: [
+          { name: "White Bass", code: "white bass" },
+          { name: "Largemounth Bass", code: "largemouth bass" },
+          { name: "Smallmouth Bass", code: "smallmouth bass" },
+          { name: "Spotted Bass", code: "spotted bass" },
+          { name: "Striped Bass", code: "striped bass" },
+          { name: "Carp", code: "carp" },
+          { name: "Bullhead Catfish", code: "bullhead catfish" },
+          { name: "Channel Catfish", code: "channel catfish" },
+          { name: "White Catfish", code: "white catfish" },
+          { name: "Black Crappie", code: "black crappie" },
+          { name: "White Crappie", code: "white crappie" },
+          { name: "Yellow Perch", code: "yellow perch" },
+          { name: "White Bass", code: "white bass" },
+          { name: "Kokanee Salmon", code: "kokanee salmon" },
+          { name: "Bluegill Sunfish", code: "bullgill sunfish" },
+          { name: "Green Sunfish", code: "green sunfish" },
+          { name: "Pumpkinseed", code: "pumpkinseed" },
+          { name: "Redear Sunfish", code: "redear sunfish" },
+          { name: "Brook Trout", code: "brook trout" },
+          { name: "Brown Trout", code: "brown trout" },
+          { name: "Bull Trout", code: "bull trout" },
+          { name: "Mackinaw Trout", code: "mackinaw trout" },
+          { name: "Raibow Trout", code: "rainbow trout" },
+          { name: "Bowcutt Trout", code: "bowcutt trout" },
+          { name: "Tiger Trout", code: "tiger trout" },
+          { name: "Walleye", code: "walleye" },
+          { name: "Wiper", code: "wiper" },
+          { name: "Lahontan Cutthroat Trout", code: "lahontan cutthroat trout" },
+          { name: "Redband Trout", code: "redband trout" },
+          { name: "Tiger Muskie", code: "tiger muskies" },
+          { name: "Yellowstone Cutthroat Trout", code: "yellowstone cutthroat trout" },
+          { name: "Mountain Whitefish", code: "mountain whitefish" },
+          { name: "Sacramento Perch", code: "Sacramento perch" }
+        ]
+      }
+
       // Editor Fishable Waters fields
       const fishableWaterFields = {
         layer: fishableWatersLayer,
-        fieldConfig: [{
+        fieldConfig: [
+        {
           name: 'geo_update',
-          label: 'Update Geometry (yes/no)'
+          label: 'Update Geometry',
+          domain: yesNo
         },
         {
           name: 'species_1',
-          label: 'Species 1'
+          label: 'Species 1',
+          domain: speicesValues
         },
         {
           name: 'species_2',
-          label: 'Species 2'
+          label: 'Species 2',
+          domain: speicesValues
         },
         {
           name: 'species_3',
-          label: 'Species 3'
+          label: 'Species 3',
+          domain: speicesValues
         },
         {
           name: 'species_4',
-          label: 'Species 4'
+          label: 'Species 4',
+          domain: speicesValues
         },
         {
           name: 'species_5',
-          label: 'Species 5'
+          label: 'Species 5',
+          domain: speicesValues
         },
         {
           name: 'species_6',
-          label: 'Species 6'
+          label: 'Species 6',
+          domain: speicesValues
         },
         {
           name: 'species_7',
-          label: 'Species 7'
+          label: 'Species 7',
+          domain: speicesValues
         },
         {
           name: 'species_8',
-          label: 'Species 8'
+          label: 'Species 8',
+          domain: speicesValues
         },
         {
           name: 'species_9',
-          label: 'Species 9'
+          label: 'Species 9',
+          domain: speicesValues
         },
         {
           name: 'species_10',
-          label: 'Species 10'
+          label: 'Species 10',
+          domain: speicesValues
         },
         {
           name: 'species_11',
-          label: 'Species 11'
-        },]
+          label: 'Species 11',
+          domain: speicesValues
+        }]
       }
 
       // Editor
