@@ -95,9 +95,18 @@ export default {
         }
       ]
     }
+
     const fishableWatersLayer = new FeatureLayer({
       url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/fishable_creeks_streams_rivers/FeatureServer/0',
       id: 'Fishable Creeks and Streams',
+      popupEnabled: true,
+      popupTemplate: fishableWatersTemplate,
+      displayField: "water_name"
+    })
+
+    const fishableWatersBodiesLayer = new FeatureLayer({
+      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/fishable_lakes_reservoirs_ponds/FeatureServer/0',
+      id: 'Fishable Lakes, Reservoirs, Urban Bodies',
       popupEnabled: true,
       popupTemplate: fishableWatersTemplate,
       displayField: "water_name"
@@ -264,10 +273,16 @@ export default {
       const editor = new Editor({
         view: view,
         allowedWorkflows: ["update"],
-        layerInfos: [{
-          layer: fishableWatersLayer,
-          fieldConfig: [fishableWaterFields]
-        }],
+        layerInfos: [
+          { 
+            layer: fishableWatersLayer,
+            fieldConfig: [fishableWaterFields] 
+          },
+          { 
+            layer: fishableWatersBodiesLayer,
+            fieldConfig: [fishableWaterFields] 
+          }
+        ],
         // snappingOptions: {
         //   enabled: true,
         //   selfEnabled: true,
@@ -316,6 +331,7 @@ export default {
       // Add Layers to map after view has loaded
       // map.add(nhdLayer)
       map.add(fishableWatersLayer)
+      map.add(fishableWatersBodiesLayer)
 
       // Filter fishable waters by ndow_responsibility
       // fishableWatersLayer.when(() => {
