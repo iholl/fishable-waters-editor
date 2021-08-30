@@ -36,6 +36,10 @@ export default {
           type: 'fields',
           fieldInfos: [
             {
+              fieldName: 'label',
+              label: 'Fishable Waters ID'
+            },
+            {
               fieldName: 'region',
               label: 'Region'
             },
@@ -110,6 +114,11 @@ export default {
       popupEnabled: true,
       popupTemplate: fishableWatersTemplate,
       displayField: "water_name"
+    })
+
+    // NDOW REGION LAYER
+    const ndowRegionLayer = new FeatureLayer({
+      url: 'https://services.arcgis.com/RyxlXSfFi87rAosq/arcgis/rest/services/NDOWRegions/FeatureServer/0'
     })
 
     // MAP
@@ -298,7 +307,7 @@ export default {
         view: view,
         content: editor
       })
-      view.ui.add(editorExpand, 'top-right')
+      view.ui.add(editorExpand, 'top-left')
 
       // Layer List
       const layerList = new LayerList({
@@ -310,6 +319,8 @@ export default {
             item.title = 'Fishable Rivers, Streams and Creeks'
           } else if (item.title === 'Fishable lakes reservoirs ponds'){
             item.title = 'Fishable Lakes, Reservoirs and Ponds'
+          } else if (item.title === 'NDOWRegions - NDOW Regions') {
+            item.title = 'NDOW Regions'
           }
         }
       })
@@ -328,12 +339,13 @@ export default {
           view: view,
           content: basemapGallery
         })
-      view.ui.add(basemapGalleryExpand, 'bottom-left')
+      view.ui.add(basemapGalleryExpand, 'top-left')
 
       // Add Layers to map after view has loaded
       // map.add(nhdLayer)
       map.add(fishableWatersLayer)
       map.add(fishableWatersBodiesLayer)
+      map.add(ndowRegionLayer)
 
       // Filter fishable waters by ndow_responsibility
       // fishableWatersLayer.when(() => {
