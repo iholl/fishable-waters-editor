@@ -308,6 +308,8 @@ export default {
           var item = event.item
           if (item.title === 'Fishable creeks streams rivers'){
             item.title = 'Fishable Rivers, Streams and Creeks'
+          } else if (item.title === 'Fishable lakes reservoirs ponds'){
+            item.title = 'Fishable Lakes, Reservoirs and Ponds'
           }
         }
       })
