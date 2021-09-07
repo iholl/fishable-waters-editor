@@ -40,6 +40,10 @@ export default {
               label: 'Fishable Waters ID'
             },
             {
+              fieldName: 'water_code',
+              label: 'Water Code'
+            },
+            {
               fieldName: 'region',
               label: 'Region'
             },
@@ -169,7 +173,7 @@ export default {
         name: 'geo_update',
         codedValues: [
           { name: "Yes", code: "yes" },
-          { name: "No", code: "no" }
+          { name: "No", code: "no" },
         ]
       }
 
@@ -216,6 +220,11 @@ export default {
       const fishableWaterFields = {
         layer: fishableWatersLayer,
         fieldConfig: [
+        {
+          name: 'water_code',
+          label: 'Water Code',
+          editable: false
+        },
         {
           name: 'geo_update',
           label: 'Update Geometry',
